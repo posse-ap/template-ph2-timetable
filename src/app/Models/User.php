@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -45,5 +46,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // このユーザーが登録した履修情報を取得
+    public function entries(): HasMany
+    {
+        return $this->hasMany(TimetableEntry::class);
+    }
+
+    // このユーザーがお気に入り登録した授業の情報を取得
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    // このユーザーが投稿したお知らせを取得（Week11追加）
+    public function announcements(): HasMany
+    {
+        return $this->hasMany(Announcement::class);
     }
 }
