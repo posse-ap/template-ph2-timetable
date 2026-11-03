@@ -26,8 +26,8 @@ class TimetableEntryController extends Controller
     {
         $validated = $request->validate([
             'day' => ['required', 'integer', 'between:1,5'],
-            'period' => ['required', 'integer', 'between:1,6', 
-                Rule::unique('timetable_entries')->where(function ($query) use ($request) {
+            'period' => ['required', 'integer', 'between:1,6'
+        , Rule::unique('timetable_entries')->where(function ($query) use ($request) {
                 return $query->where('day', $request->day)
                             ->where('period', $request->period);
             })],
