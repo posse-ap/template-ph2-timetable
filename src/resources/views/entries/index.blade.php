@@ -17,6 +17,7 @@
                     <th>時限</th>
                     <th>授業名</th>
                     <th>教室</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +27,14 @@
                         <td>{{ $entry->period }}限</td>
                         <td>{{ $entry->title }}</td>
                         <td>{{ $entry->room }}</td>
+                        <td>
+                            <a href="/entries/{{ $entry->id }}/edit">編集</a>
+                            <form method="POST" action="/entries/{{ $entry->id }}" style="display:inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">削除</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
