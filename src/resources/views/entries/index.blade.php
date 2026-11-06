@@ -16,6 +16,7 @@
                     <th>曜日</th>
                     <th>時限</th>
                     <th>授業名</th>
+                    <th>担当教員</th>
                     <th>教室</th>
                     <th>操作</th>
                 </tr>
@@ -23,12 +24,12 @@
             <tbody>
                 @foreach ($entries as $entry)
                     <tr>
-                        <td>{{ ['', '月', '火', '水', '木', '金'][$entry->day] }}</td>
-                        <td>{{ $entry->period }}限</td>
-                        <td>{{ $entry->title }}</td>
-                        <td>{{ $entry->room }}</td>
+                        <td>{{ ['', '月', '火', '水', '木', '金'][$entry->course->day] }}</td>
+                        <td>{{ $entry->course->period }}限</td>
+                        <td>{{ $entry->course->name }}</td>
+                        <td>{{ $entry->course->teacher }}</td>
+                        <td>{{ $entry->course->room }}</td>
                         <td>
-                            <a href="/entries/{{ $entry->id }}/edit">編集</a>
                             <form method="POST" action="/entries/{{ $entry->id }}" style="display:inline">
                                 @csrf
                                 @method('DELETE')
