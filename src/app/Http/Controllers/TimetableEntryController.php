@@ -11,7 +11,8 @@ class TimetableEntryController extends Controller
 {
     public function index(Request $request)
     {
-        $entries = $request->user()->entries()->with('course')
+        $entries = $request->user()->entries()->with(['course' => function ($query) {
+            $query->withCount('users'); }])
             ->join('courses', 'timetable_entries.course_id', '=', 'courses.id')
             ->select('timetable_entries.*')
             ->orderBy('courses.day')

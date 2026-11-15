@@ -34,6 +34,7 @@
                         <td>{{ ['', '月', '火', '水', '木', '金'][$entry->course->day] }}</td>
                         <td>{{ $entry->course->period }}限</td>
                         <td>{{ $entry->course->name }}</td>
+                        <td>{{ $entry->course->users_count }}人</td>
                         <td>{{ $entry->course->teacher }}</td>
                         <td>{{ $entry->course->room }}</td>
                         <td>

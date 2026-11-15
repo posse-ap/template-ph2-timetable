@@ -11,6 +11,22 @@
         担当: {{ $course->teacher }} / 教室: {{ $course->room }}
     </p>
 
+    <p>タグ：
+        @forelse ($course->tags as $tag)
+            {{ $tag->name }}
+        @empty
+            なし
+        @endforelse
+    </p>
+    <p>受講者数：{{ $course->users->count() }}人</p>
+    <ul>
+        @forelse ($course->users as $user)
+            <li>{{ $user->name }}</li>
+        @empty
+            <li>まだ受講者がいません</li>
+        @endforelse
+    </ul>
+
     <h2>レビュー</h2>
     @forelse ($reviews as $review)
         <p>{{ $review->user->name }}: {{ $review->body }}</p>

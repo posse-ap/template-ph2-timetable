@@ -23,6 +23,7 @@
                 <th>授業名</th>
                 <th>担当教員</th>
                 <th>教室</th>
+                <th>タグ</th>
                 <th>状態</th>
             </tr>
         </thead>
@@ -31,9 +32,16 @@
                 <tr>
                     <td>{{ ['', '月', '火', '水', '木', '金'][$course->day] }}</td>
                     <td>{{ $course->period }}限</td>
-                    <td><a href="/courses/{{ $course->id }}">{{ $course->name }}</a></td>
+                    <td>
+                        <a href="/courses/{{ $course->id }}">{{ $course->name }}</a>
+                    </td>
                     <td>{{ $course->teacher }}</td>
                     <td>{{ $course->room }}</td>
+                    <td>
+                        @foreach ($course->tags as $tag)
+                            <a href="/courses?tag={{ $tag->id }}&q={{ $q }}">{{ $tag->name }}</a>
+                        @endforeach
+                    </td>
                     <td>
                         @if ($course->entries->isNotEmpty())
                             <span>登録済み</span>
@@ -44,6 +52,15 @@
                                 <button type="submit">登録</button>
                             </form>
                         @endif
+                    </td>
+                    <td>
+                        <form method="POST" action="/courses/{{ $course->id }}/favorites" style="display:inline">
+                            @csrf
+                            <button type="submit">
+                                {{ $course->favoritedBy->isNotEmpty() ? '★' : '☆' }}
+                            </button>
+                        </form>
+                        {{ $course->favorited_by_count }}人
                     </td>
                 </tr>
             @endforeach
