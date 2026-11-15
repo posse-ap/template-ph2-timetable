@@ -25,6 +25,7 @@
                 <th>教室</th>
                 <th>タグ</th>
                 <th>状態</th>
+                <th>お気に入り</th>
             </tr>
         </thead>
         <tbody>
