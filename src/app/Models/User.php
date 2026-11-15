@@ -56,4 +56,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'timetable_entries', 'user_id', 'course_id');
+    }
+
+    public function favoriteCourses()
+    {
+        return $this->belongsToMany(Course::class, 'favorites', 'user_id', 'course_id');
+    }
 }

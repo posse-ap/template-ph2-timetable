@@ -29,4 +29,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/courses/{course}', [CourseController::class, 'show']);
     Route::post('/courses/{course}/reviews', [CourseController::class, 'storeReview']);
     Route::delete('/reviews/{review}', [\App\Http\Controllers\ReviewController::class, 'destroy']);
+    Route::post('/courses/{course}/favorites', [CourseController::class, 'toggleFavorite']);
 });

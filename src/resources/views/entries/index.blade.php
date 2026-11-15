@@ -23,6 +23,7 @@
                     <th>曜日</th>
                     <th>時限</th>
                     <th>授業名</th>
+                    <th>履修者数</th>
                     <th>担当教員</th>
                     <th>教室</th>
                     <th>操作</th>
@@ -34,6 +35,7 @@
                         <td>{{ ['', '月', '火', '水', '木', '金'][$entry->course->day] }}</td>
                         <td>{{ $entry->course->period }}限</td>
                         <td>{{ $entry->course->name }}</td>
+                        <td>{{ $entry->course->users_count }}人</td>
                         <td>{{ $entry->course->teacher }}</td>
                         <td>{{ $entry->course->room }}</td>
                         <td>
