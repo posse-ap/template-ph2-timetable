@@ -23,6 +23,7 @@ class CourseController extends Controller
             },
         ])
         ->withCount('favoritedBy')
+        ->withCount('users')
         ->when($q, function ($query) use ($q) {
             $query->where(function ($query) use ($q) {
                 $query->where('name', 'like', '%' . $q . '%')

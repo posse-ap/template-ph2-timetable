@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',  // 管理者かどうか
     ];
 
     /**
