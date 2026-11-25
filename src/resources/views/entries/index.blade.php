@@ -13,6 +13,14 @@
         </form>
     </div>
     <h1>時間割一覧</h1>
+
+    <h2>最近のお知らせ</h2>
+    @forelse ($announcements as $announcement)
+        <p>{{ $announcement->published_at->format('Y/m/d H:i') }}　【{{ $announcement->course->name }}】{{ $announcement->title }}</p>
+    @empty
+        <p>お知らせはありません</p>
+    @endforelse
+
     @error('entry')
         <p>{{ $message }}</p>
     @enderror
