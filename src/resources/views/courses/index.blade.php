@@ -23,6 +23,7 @@
                 <th>授業名</th>
                 <th>担当教員</th>
                 <th>教室</th>
+                <th>受講者数</th>
                 <th>タグ</th>
                 <th>状態</th>
                 <th>お気に入り</th>
@@ -38,20 +39,26 @@
                     </td>
                     <td>{{ $course->teacher }}</td>
                     <td>{{ $course->room }}</td>
+                    <td>{{ $course->users_count }}人 / 定員：{{ $course->capacity }}人</td>
                     <td>
                         @foreach ($course->tags as $tag)
                             <a href="/courses?tag={{ $tag->id }}&q={{ $q }}">{{ $tag->name }}</a>
                         @endforeach
                     </td>
                     <td>
-                        @if ($course->entries->isNotEmpty())
-                            <span>登録済み</span>
-                        @else
+                        @php($myEntry = $course->entries->first())
+                        @if (!$myEntry)
                             <form method="POST" action="/entries" style="display:inline">
                                 @csrf
                                 <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                <button type="submit">登録</button>
+                                <button type="submit">登録申請</button>
                             </form>
+                        @elseif ($myEntry->status === \App\Models\TimetableEntry::PENDING)
+                            <span>申請中</span>
+                        @elseif ($myEntry->status === \App\Models\TimetableEntry::APPROVED)
+                            <span>承認済み</span>
+                        @elseif ($myEntry->status === \App\Models\TimetableEntry::REJECTED)
+                            <span>却下</span>
                         @endif
                     </td>
                     <td>

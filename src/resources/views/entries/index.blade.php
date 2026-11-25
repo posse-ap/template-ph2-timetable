@@ -13,6 +13,9 @@
         </form>
     </div>
     <h1>時間割一覧</h1>
+    @error('entry')
+        <p>{{ $message }}</p>
+    @enderror
 
     @if ($entries->isEmpty())
         <p>まだ授業が登録されていません</p>
@@ -26,6 +29,7 @@
                     <th>履修者数</th>
                     <th>担当教員</th>
                     <th>教室</th>
+                    <th>状態</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -35,15 +39,22 @@
                         <td>{{ ['', '月', '火', '水', '木', '金'][$entry->course->day] }}</td>
                         <td>{{ $entry->course->period }}限</td>
                         <td>{{ $entry->course->name }}</td>
-                        <td>{{ $entry->course->users_count }}人</td>
+                        <td>{{ $entry->course->users_count }}人 / 定員：{{ $entry->course->capacity }}人</td>
                         <td>{{ $entry->course->teacher }}</td>
                         <td>{{ $entry->course->room }}</td>
+                        <td>{{ [\App\Models\TimetableEntry::PENDING => '申請中', \App\Models\TimetableEntry::APPROVED => '承認', \App\Models\TimetableEntry::REJECTED => '却下'][$entry->status] }}</td>
                         <td>
-                            <form method="POST" action="/entries/{{ $entry->id }}" style="display:inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit">削除</button>
-                            </form>
+                            @if ($entry->status === \App\Models\TimetableEntry::PENDING)
+                                <form method="POST" action="/entries/{{ $entry->id }}" style="display:inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit">登録取消</button>
+                                </form>
+                            @elseif ($entry->status === \App\Models\TimetableEntry::APPROVED)
+                                <span>登録済み</span>
+                            @elseif ($entry->status === \App\Models\TimetableEntry::REJECTED)
+                                <span>登録不可</span>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

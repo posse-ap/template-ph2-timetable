@@ -18,7 +18,7 @@
             なし
         @endforelse
     </p>
-    <p>受講者数：{{ $course->users->count() }}人</p>
+    <p>受講者数：{{ $course->users->count() }}人 / 定員：{{ $course->capacity }}人</p>
     <ul>
         @forelse ($course->users as $user)
             <li>{{ $user->name }}</li>

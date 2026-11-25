@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TimetableController;
 use App\Http\Controllers\TimetableEntryController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\AdminEntryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,4 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/courses/{course}/reviews', [CourseController::class, 'storeReview']);
     Route::delete('/reviews/{review}', [\App\Http\Controllers\ReviewController::class, 'destroy']);
     Route::post('/courses/{course}/favorites', [CourseController::class, 'toggleFavorite']);
+    Route::middleware('can:admin')->prefix('admin')->group(function () {
+    Route::get('/entries', [AdminEntryController::class, 'index']);
+    Route::post('/entries/{id}/approve', [AdminEntryController::class, 'approve']);
+    Route::post('/entries/{id}/reject', [AdminEntryController::class, 'reject']);
+});
 });

@@ -25,7 +25,8 @@ class Course extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'timetable_entries', 'course_id', 'user_id');
+        return $this->belongsToMany(User::class, 'timetable_entries', 'course_id', 'user_id')
+            ->wherePivot('status', TimetableEntry::APPROVED);  // 承認済みの申請のみ
     }
 
     public function favoritedBy()
