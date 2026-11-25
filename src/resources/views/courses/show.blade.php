@@ -27,6 +27,16 @@
         @endforelse
     </ul>
 
+    <h2>お知らせ</h2>
+    @can('admin')
+        <p><a href="/admin/courses/{{ $course->id }}/announcements/create">お知らせを出す</a></p>
+    @endcan
+    @forelse ($announcements as $announcement)
+        <p>{{ $announcement->published_at->format('Y/m/d H:i') }}　{{ $announcement->title }}</p>
+    @empty
+        <p>お知らせはありません</p>
+    @endforelse
+
     <h2>レビュー</h2>
     @forelse ($reviews as $review)
         <p>{{ $review->user->name }}: {{ $review->body }}</p>

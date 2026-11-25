@@ -8,6 +8,7 @@ use App\Models\Course;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\UniqueConstraintViolationException;
+use App\Models\Announcement;
 
 class TimetableEntryController extends Controller
 {
@@ -21,7 +22,17 @@ class TimetableEntryController extends Controller
             ->orderBy('courses.period')
             ->get();
         
-        return view('entries.index', ['entries' => $entries]);
+        $courseIds = $request->user()->entries()
+    ->where('status', TimetableEntry::APPROVED)
+    ->pluck('course_id');
+
+$announcements = Announcement::whereIn('course_id', $courseIds)
+    ->orderByDesc('published_at')
+    ->limit(10)
+    ->with('course')
+    ->get();
+
+        return view('entries.index', ['entries' => $entries, 'announcements' => $announcements]);
     }
 
     public function create()

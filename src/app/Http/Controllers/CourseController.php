@@ -44,7 +44,8 @@ class CourseController extends Controller
     {
         $course->load(['tags', 'users']);
         $reviews = $course->reviews()->with('user')->latest()->get();
-        return view('courses.show', ['course' => $course, 'reviews' => $reviews]);
+        $announcements = $course->announcements()->orderByDesc('published_at')->get();
+        return view('courses.show', ['course' => $course, 'reviews' => $reviews, 'announcements' => $announcements]);
     }
 
     public function storeReview(Request $request, Course $course)

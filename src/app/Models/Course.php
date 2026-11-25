@@ -13,6 +13,11 @@ class Course extends Model
     }
     public $timestamps = false;
 
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class);
+    }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
