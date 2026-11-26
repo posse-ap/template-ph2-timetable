@@ -13,6 +13,11 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    public function entries()
+    {
+        return $this->hasMany(TimetableEntry::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',  // 管理者かどうか
     ];
 
     /**
@@ -45,5 +51,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'timetable_entries', 'user_id', 'course_id');
+    }
+
+    public function favoriteCourses()
+    {
+        return $this->belongsToMany(Course::class, 'favorites', 'user_id', 'course_id');
     }
 }
