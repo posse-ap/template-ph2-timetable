@@ -31,35 +31,22 @@
 				</div>
 			@endif
 
-			<div>
-				<label for="day" class="mb-1 block text-sm font-medium">曜日</label>
-				<select id="day" name="day" required class="w-full rounded-md border border-slate-300 px-3 py-2">
-					<option value="">曜日を選択してください</option>
-					@foreach ([1 => '月曜日', 2 => '火曜日', 3 => '水曜日', 4 => '木曜日', 5 => '金曜日'] as $value => $label)
-						<option value="{{ $value }}" @selected(old('day') == $value)>{{ $label }}</option>
-					@endforeach
-				</select>
-			</div>
+        <div>
+            <label for="course_id" class="mb-1 block text-sm font-medium">授業</label>
+            <select id="course_id" name="course_id" required
+            class="w-full rounded-md border border-slate-300 px-3 py-2">
+            <option value="">授業を一覧から選んでください</option>
 
-			<div>
-				<label for="period" class="mb-1 block text-sm font-medium">時限</label>
-				<select id="period" name="period" required class="w-full rounded-md border border-slate-300 px-3 py-2">
-					<option value="">時限を選択してください</option>
-					@foreach (range(1, 6) as $period)
-						<option value="{{ $period }}" @selected(old('period') == $period)>{{ $period }}限</option>
-					@endforeach
-				</select>
-			</div>
-
-			<div>
-				<label for="title" class="mb-1 block text-sm font-medium">授業名</label>
-				<input id="title" name="title" type="text" value="{{ old('title') }}" required maxlength="255" class="w-full rounded-md border border-slate-300 px-3 py-2">
-			</div>
-
-			<div>
-				<label for="room" class="mb-1 block text-sm font-medium">教室（任意）</label>
-				<input id="room" name="room" type="text" value="{{ old('room') }}" maxlength="255" class="w-full rounded-md border border-slate-300 px-3 py-2">
-			</div>
+            @foreach ($courses as $course)
+            <option value="{{ $course->id }}" @selected(old('course_id') == $course->id)>
+                {{ ['月曜日', '火曜日', '水曜日', '木曜日', '金曜日'][$course->day - 1] }}
+                {{ $course->period }}限
+                {{ $course->name }}
+                （{{ $course->teacher }}）
+            </option>
+            @endforeach
+            </select>
+        </div>
 
 			<button type="submit" class="rounded-lg bg-[#1f3a5f] px-4 py-2 font-medium text-white hover:bg-slate-700">登録する</button>
 		</form>
